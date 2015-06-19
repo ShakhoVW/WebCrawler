@@ -32,7 +32,7 @@ object App {
         } catch {
           case e: UnknownHostException => content = ", , ,  UnknownHostException: " + url + "\n"
           case e: IOException => content = ", , ,  IOException: " + url + "\n"
-          case e: _ => content = ", , ,  Exception: " + url + "\n"
+          case unknown => content = ", , ,  Exception: " + url + "\n"
 
         }
         sender ! Response(content)
@@ -51,7 +51,7 @@ object App {
         val randomRouter = context.actorOf(
           Props[Crawler].withRouter(RandomRouter(20)), "router")
 
-        val stream: InputStream = getClass.getResourceAsStream("/short.txt")
+        val stream: InputStream = getClass.getResourceAsStream("/short3.txt")
         for {
           line <- Source fromInputStream stream getLines()
         } {
