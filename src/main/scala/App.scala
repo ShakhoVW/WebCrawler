@@ -50,7 +50,7 @@ object App {
         val randomRouter = context.actorOf(
           Props[Crawler].withRouter(RandomRouter(20)), "router")
 
-        val stream: InputStream = getClass.getResourceAsStream("/short3.txt")
+        val stream: InputStream = getClass.getResourceAsStream("/short.txt")
         for {
           line <- Source fromInputStream stream getLines()
         } {
