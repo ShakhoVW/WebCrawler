@@ -21,9 +21,9 @@ object App {
   class Crawler extends Actor {
     def receive = {
       case Request(url) =>
-        val encoderUrl: String = "http://" + IDN.toASCII(url)
         var content = ""
         try {
+          val encoderUrl: String = "http://" + IDN.toASCII(url)
           val html: String = Source.fromURL(new URL(encoderUrl)).take(5000).mkString.trim
           val title: String = "<title>(.*?)<\\/title>".r.findFirstIn(html).mkString.stripPrefix("<title>").stripSuffix("</title>").replaceAll(",", "")
           val keywords: String = "keywords\"(.*?)>".r.findFirstIn(html).mkString.replaceAll("keywords\" content=\"", "").replaceAll("\\\"\\s?\\/?>", "").replaceAll(",", "")
@@ -33,7 +33,6 @@ object App {
           case e: UnknownHostException => content = ", , ,  UnknownHostException: " + url + "\n"
           case e: IOException => content = ", , ,  IOException: " + url + "\n"
           case unknown => content = ", , ,  Exception: " + url + "\n"
-
         }
         sender ! Response(content)
     }
